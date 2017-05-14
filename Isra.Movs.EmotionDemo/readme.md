@@ -19,5 +19,6 @@ Posibles fallas detectadas
 - No interpreta cuando Emotion API devuelva un error.
 - Fallas en la cámara y/o permisos
 - No se ha probado en iPhone ya que no tengo uno :(
+- Traducción a otros idiomas.
 
 Cualquier aportación a mejorar la app se agradece.
