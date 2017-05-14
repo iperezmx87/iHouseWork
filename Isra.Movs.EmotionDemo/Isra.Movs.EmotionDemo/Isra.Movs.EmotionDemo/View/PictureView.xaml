@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Isra.Movs.EmotionDemo.View.PictureView">
+    <StackLayout Padding="15">
+        <!-- Imagen seleccionada -->
+        <Image Source="{Binding model.PhotoSource}"
+               HeightRequest="300" 
+               WidthRequest="300"
+               HorizontalOptions="Center"
+               Aspect="AspectFit"></Image>
+
+        <!-- boton que toma la imagen -->
+        <Button Text="{Binding model.TakePictureColorText}"
+                FontSize="25"
+                TextColor="Orange"
+                Command="{Binding cmdTakePhoto}"
+                HorizontalOptions="FillAndExpand"></Button>
+
+        <!-- Resultado de la toma -->
+        <StackLayout Padding="5">
+            <Label FontSize="25" 
+               TextColor="{Binding model.EmotionColor}"
+               Text="{Binding model.EmotionResult}"
+               HorizontalOptions="FillAndExpand"></Label>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
