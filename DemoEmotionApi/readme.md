@@ -10,7 +10,8 @@ Se anexa un proyecto WPF para mostrar el consumo de la biblioteca.
 
 Posibles Fallas:
 - No interpeta el mensaje de error cuando Emotion API lo entregue.
-- Puede no interpetar correctamente los rostros
-- Optimizar los tiempos de respuesta de Emotion API
+- Puede no interpetar correctamente los rostros.
+- Optimizar los tiempos de respuesta de Emotion API.
+- Traducción de los textos a otro idiomas.
 
 Cualquier aportacion a mejorar la biblioteca se agradece.
