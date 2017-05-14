@@ -6,6 +6,8 @@ Biblioteca portable que permite conectarse a Azure Cognitive Services Emotion AP
 - La bilbioteca se conecta y entrega el objeto EmotionFaces que en su interior contiene los Scores de cada emoción.
 - Además la biblioteca interpreta la emoción mas prominente en la fotografia y lo hace por cada rostro detectado.
 
+Se anexa un proyecto WPF para mostrar el consumo de la biblioteca.
+
 Posibles Fallas:
 - No interpeta el mensaje de error cuando Emotion API lo entregue.
 - Puede no interpetar correctamente los rostros
