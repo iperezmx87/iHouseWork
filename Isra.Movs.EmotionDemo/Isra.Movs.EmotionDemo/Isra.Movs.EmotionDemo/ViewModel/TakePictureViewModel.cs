@@ -55,12 +55,12 @@ namespace Isra.Movs.EmotionDemo.ViewModel
         {
             try
             {
-                this.model.EmotionResult = "Taking picture...";
+                this.model.EmotionResult = "Tomando foto...";
 
                 await CrossMedia.Current.Initialize();
                 if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
                 {
-                    await App.Current.MainPage.DisplayAlert("Emotion API Demo", "Error: No camera :(", "Ok");
+                    await App.Current.MainPage.DisplayAlert("Emotion API Demo", "Error: Cámara no disponible.", "Ok");
                     return;
                 }
 
@@ -75,16 +75,14 @@ namespace Isra.Movs.EmotionDemo.ViewModel
                 {
                     return;
                 }
-
-                // await App.Current.MainPage.DisplayAlert("Emotion API Demo", file.Path, "OK");
-
+                
                 model.PhotoSource = ImageSource.FromStream(() =>
                 {
                     var stream = file.GetStream();
                     return stream;
                 });
 
-                model.EmotionResult = "Detecting emotion...";
+                model.EmotionResult = "Detectando emoción...";
 
                 byte[] imageBytes;
                 using (MemoryStream ms = new MemoryStream())
@@ -110,7 +108,7 @@ namespace Isra.Movs.EmotionDemo.ViewModel
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Emotion API Demo", "No Faces Detected.", "OK");
+                    await App.Current.MainPage.DisplayAlert("Emotion API Demo", "No existen rostros detectados.", "OK");
                     model.EmotionResult = "";
                 }
 

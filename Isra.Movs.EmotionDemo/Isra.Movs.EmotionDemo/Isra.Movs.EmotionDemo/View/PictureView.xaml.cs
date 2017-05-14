@@ -16,7 +16,7 @@ namespace Isra.Movs.EmotionDemo.View
             {
                 EmotionColor = Color.Black,
                 EmotionResult = "",
-                TakePictureColorText = "Take photo and detect emotion"
+                TakePictureColorText = "Tomar foto y detectar emoción"
             });
         }
     }
