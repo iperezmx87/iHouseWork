@@ -2,7 +2,7 @@
 
 Detector de emociones construido en Xamarin.Forms que hace lo siguiente:
 
-- Toma una fotografía utilizando la(s) cámaras del dispositivo.
+- Toma una fotografía utilizando la(s) cámara(s) del dispositivo.
 - Se conecta a "Azure Cognitive Services - Emotion API", para obtener los Scores de Emotion.
 - En base a los scores, interpreta la emoción mostrándola en la parte inferior.
 
