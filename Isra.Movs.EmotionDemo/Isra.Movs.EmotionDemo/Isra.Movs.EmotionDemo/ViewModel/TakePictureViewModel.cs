@@ -22,7 +22,7 @@ namespace Isra.Movs.EmotionDemo.ViewModel
 
         public TakePictureModel model { get; set; }
 
-        private string EmotionApiSubsctiptionKey = "b95758bd03f040bca346a0fe567625a5";  // your subscription goes here
+        private string EmotionApiSubsctiptionKey = "";  // your subscription goes here
 
         #endregion
 
