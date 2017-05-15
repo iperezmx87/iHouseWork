@@ -1,14 +1,12 @@
-﻿using Isra.Movs.EmotionDemo.Model;
-using Plugin.Media;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using EmotionApiDemo.Core;
 using EmotionApiDemo.Core.Model;
-using EmotionApiDemo.Core;
+using Isra.Movs.EmotionDemo.Model;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using System;
 using System.IO;
+using System.Text;
+using Xamarin.Forms;
 
 namespace Isra.Movs.EmotionDemo.ViewModel
 {
@@ -24,7 +22,7 @@ namespace Isra.Movs.EmotionDemo.ViewModel
 
         public TakePictureModel model { get; set; }
 
-        private string EmotionApiSubsctiptionKey = "";  // your subscription goes here
+        private string EmotionApiSubsctiptionKey = "b95758bd03f040bca346a0fe567625a5";  // your subscription goes here
 
         #endregion
 
@@ -55,34 +53,60 @@ namespace Isra.Movs.EmotionDemo.ViewModel
         {
             try
             {
-                this.model.EmotionResult = "Tomando foto...";
-
                 await CrossMedia.Current.Initialize();
-                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                MediaFile file;
+
+                // update  1
+                // tomar la foto desde la camara o desde la biblioteca de imagenes
+                string imageOption = await App.Current.MainPage.DisplayActionSheet("Emotion API Demo",
+                    "Cancelar", null, "Tomar foto de cámara", "Tomar foto de librería");
+
+                if (imageOption == "Tomar foto de cámara")
                 {
-                    await App.Current.MainPage.DisplayAlert("Emotion API Demo", "Error: Cámara no disponible.", "Ok");
+                    model.EmotionResult = "Tomando foto...";
+
+                    if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                    {
+                        await App.Current.MainPage.DisplayAlert("Emotion API Demo", "Error: Cámara no disponible.", "Ok");
+                        model.EmotionResult = "";
+                        return;
+                    }
+
+                    file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                    {
+                        DefaultCamera = CameraDevice.Front,
+                        Directory = "Sample",
+                        Name = "test.jpg"
+                    });
+
+                    if (file == null)
+                    {
+                        return;
+                    }
+                }
+                else if (imageOption == "Tomar foto de librería")
+                {
+                    model.EmotionResult = "Seleccionando foto...";
+
+                    file = await CrossMedia.Current.PickPhotoAsync();
+
+                    if (file == null)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
                     return;
                 }
 
-                var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-                {
-                    DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Front,
-                    Directory = "Sample",
-                    Name = "test.jpg"
-                });
-
-                if (file == null)
-                {
-                    return;
-                }
-                
                 model.PhotoSource = ImageSource.FromStream(() =>
                 {
                     var stream = file.GetStream();
                     return stream;
                 });
 
-                model.EmotionResult = "Detectando emoción...";
+                model.EmotionResult = "Detectando emoción(es)...";
 
                 byte[] imageBytes;
                 using (MemoryStream ms = new MemoryStream())
@@ -98,7 +122,10 @@ namespace Isra.Movs.EmotionDemo.ViewModel
                 if (emotionFaces.Length > 0)
                 {
                     StringBuilder builder = new StringBuilder();
-                    foreach (var face in emotionFaces)
+
+                    builder.Append($"Número de rostros detectados: {emotionFaces.Length}\n");
+
+                    foreach (var face in emotionFaces) 
                     {
                         builder.Append($"{emotionEngine.DetectEmocion(face.scores)}\n");
                     }
@@ -111,7 +138,6 @@ namespace Isra.Movs.EmotionDemo.ViewModel
                     await App.Current.MainPage.DisplayAlert("Emotion API Demo", "No existen rostros detectados.", "OK");
                     model.EmotionResult = "";
                 }
-
             }
             catch (Exception ex)
             {
@@ -121,6 +147,5 @@ namespace Isra.Movs.EmotionDemo.ViewModel
         }
 
         #endregion
-
     }
 }
