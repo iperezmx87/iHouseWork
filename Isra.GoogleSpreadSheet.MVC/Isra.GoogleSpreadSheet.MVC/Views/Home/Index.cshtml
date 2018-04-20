@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@GoogleSheetHelper.GoogleSheetExportComponent(this)
+
+<div class="jumbotron">
+    <h1>Probando Google Spreadsheet API con ASP.NET usando Javascript Client</h1>
+    <div class="large-1 columns text-right">
+        <img src="~/Images/googlesheet.png" style="cursor:pointer" onclick="exportarGoogle();" title="Enviar a google sheet (beta)" width="200" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    function exportarGoogle() {
+        // obtener los datos a exportar de tu servidor
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "/Home/GenerarInformacionGoogle/",
+
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response != null) {
+                    /* funcion incluida en el helper
+                     titulo principal de la hoja
+                     titulo de la primer hoja interna
+                     ultima columna a exportar
+                     json con los datos a insertar
+                     el helper hace el resto ;) */
+                    CreateSpreadsheet("Ejemplo Google", "Hoja1", "D", response);
+                } else {
+                    swal("Error", "Ha ocurrido un error!", "error");
+                }
+            }
+        });
+    }
+</script>
